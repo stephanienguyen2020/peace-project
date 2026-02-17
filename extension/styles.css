@@ -1,0 +1,321 @@
+#sentiment-overlay {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 300px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  z-index: 9999;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1f2937;
+  font-size: 13px;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.so-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: grab;
+  user-select: none;
+}
+
+.so-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.so-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.so-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d1d5db;
+  transition: all 0.3s;
+}
+
+.so-dot.active {
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.so-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+/* ── Buttons ── */
+.so-btn {
+  padding: 5px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.so-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.so-btn-icon {
+  padding: 5px 9px;
+  min-width: 28px;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.so-hint {
+  font-size: 10px;
+  color: #9ca3af;
+  align-self: center;
+}
+
+/* ── Body ── */
+.so-body {
+  padding: 16px;
+  max-height: 480px;
+  overflow-y: auto;
+  transition: all 0.25s ease;
+}
+
+.so-body.collapsed {
+  max-height: 0;
+  padding: 0 16px;
+  overflow: hidden;
+}
+
+/* ── Sections ── */
+.so-section {
+  margin-bottom: 0;
+}
+
+.so-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 14px 0;
+}
+
+.so-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.so-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.so-label-row .so-label {
+  margin-bottom: 0;
+}
+
+/* ── Badge ── */
+.so-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: none;
+}
+
+.so-badge.positive {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.so-badge.negative {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* ── Sentiment bar ── */
+.so-bar-track {
+  position: relative;
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 100px;
+  overflow: visible;
+}
+
+.so-bar-fill {
+  height: 100%;
+  width: 50%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  transition: width 0.6s ease, background 0.6s ease;
+}
+
+.so-bar-marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: left 0.6s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.so-score {
+  text-align: center;
+  font-family: "SF Mono", "JetBrains Mono", monospace;
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 8px;
+  color: #9ca3af;
+  letter-spacing: -0.02em;
+}
+
+.so-score.positive { color: #059669; }
+.so-score.negative { color: #dc2626; }
+
+/* ── Emotion rows ── */
+.so-emotions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.so-emo-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 30px;
+  align-items: center;
+  gap: 10px;
+}
+
+.so-emo-name {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 450;
+}
+
+.so-emo-track {
+  height: 5px;
+  background: #f3f4f6;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.so-emo-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 100px;
+  transition: width 0.4s ease;
+}
+
+.so-emo-contempt { background: #ef4444; }
+.so-emo-anger { background: #f97316; }
+.so-emo-joy { background: #10b981; }
+.so-emo-sadness { background: #3b82f6; }
+.so-emo-disgust { background: #8b5cf6; }
+
+.so-emo-val {
+  font-family: "SF Mono", "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* ── Contempt alerts ── */
+.so-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: #fef2f2;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #dc2626;
+  font-weight: 500;
+  animation: fadeIn 0.25s ease;
+}
+
+.so-alert-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.so-alert-time {
+  margin-left: auto;
+  font-family: "SF Mono", "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: #fca5a5;
+  font-weight: 400;
+}
+
+/* ── Transcript ── */
+.so-transcript {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #6b7280;
+  padding: 10px 12px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 10px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+/* ── Scrollbar ── */
+#sentiment-overlay ::-webkit-scrollbar {
+  width: 4px;
+}
+
+#sentiment-overlay ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#sentiment-overlay ::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 100px;
+}
+
+/* ── Animations ── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
