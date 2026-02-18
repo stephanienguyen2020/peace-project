@@ -28,10 +28,15 @@ async function startRecording(streamId) {
       },
     });
 
-    // Pipe audio back to speakers so the video isn't muted
+    // Play audio locally to avoid muting the tab
     audioContext = new AudioContext();
     const source = audioContext.createMediaStreamSource(audioStream);
     source.connect(audioContext.destination);
+
+    // Ensure context is running
+    if (audioContext.state === "suspended") {
+      await audioContext.resume();
+    }
 
     connectWebSocket();
     isRecording = true;
@@ -93,7 +98,12 @@ function connectWebSocket() {
       console.log("Received analysis result:", data);
       broadcastStatus("ANALYSIS_RESULT", data);
     } catch (error) {
-      console.error("Error parsing WebSocket message:", error, "Raw data:", event.data);
+      console.error(
+        "Error parsing WebSocket message:",
+        error,
+        "Raw data:",
+        event.data
+      );
     }
   };
 
@@ -139,7 +149,7 @@ function cleanUp() {
 
 function broadcastStatus(type, data = null) {
   console.log("Broadcasting status:", type, data ? Object.keys(data) : null);
-  chrome.runtime.sendMessage({ type, data }).catch(err => {
+  chrome.runtime.sendMessage({ type, data }).catch((err) => {
     console.error("Error broadcasting status:", err);
   });
 }
